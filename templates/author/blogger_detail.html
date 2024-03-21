@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Author{% endblock %}
+
+{% block content %}
+<h1 class="text-success">{{author.username}}</h1>
+<hr>
+<div>
+    <p>{{author.bio_detail}}</p>
+</div>
+<hr>
+<h3 class="text-success">All Blogs</h3>
+{% if auth_posts %}
+{% for post in auth_posts %}
+<div class="card border-success m-3">
+    <a class="text-decoration-none" href="#"><h5 class="card-header bg-success text-white bg-opacity-75">{{ post.title }}</h5></a>
+    <div class="card-body">
+        <p class="card-text">Date posted : {{post.created_at}}</p>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+No blogs posted by this user yet!
+{% endif %}
+{% endblock %}
