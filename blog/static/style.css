@@ -1,0 +1,25 @@
+body {
+    background-color: lightgoldenrodyellow !important;
+}
+
+#sidebar {
+    height: 750px;
+    background-color: darkolivegreen;
+}
+li {
+    list-style-type: none;
+}
+.sidenav{
+    color: gold;
+}
+
+.sidenav a {
+    color: gold;
+    text-decoration: none;
+    padding: 10px 12px;
+}
+
+.sidenav a:hover {
+    color: lightgoldenrodyellow;
+    border-bottom: 1px solid darkgreen;
+}
