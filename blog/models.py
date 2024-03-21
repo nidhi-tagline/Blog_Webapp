@@ -13,7 +13,7 @@ class Blog(BaseModel):
     content = models.TextField()
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='blogs')
     
-    def __init__(self):
+    def __str__(self):
         return self.title
     
 class Comment(BaseModel):
