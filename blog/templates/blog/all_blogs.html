@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Blog-list{% endblock %}
+{% block content %}
+{% if blog_posts %}
+<h1>Recent Blogs</h1>
+{% for post in blog_posts %}
+<div class="card border-success m-3">
+    <a class="text-decoration-none" href="#"><h5 class="card-header bg-success text-white bg-opacity-75">{{ post.title }}</h5></a>
+    <div class="card-body">
+        <p class="card-text">Date posted : {{post.created_at}}</p>
+        - By <a href="#" class="link-success text-decoration-none">{{post.author}}</a>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<h2>No Blogs available.</h2>
+{% endif %}
+
+<nav>
+    <div class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <a class="link-success mx-2" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+            <span>Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}.<span>
+        {% if page_obj.has_next %}
+            <a class="link-success mx-2" href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+  </nav>
+
+{% endblock %}
