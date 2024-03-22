@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}List of bloggers{% endblock %}
+
+{% block content %}
+<h1>All Bloggers</h1>
+<hr>
+<div class="list-group border border-success">
+    {% for author in authors %}
+    <a href="{% url "author:author-detail" author.id %}" class="list-group-item list-group-item-action">{{ author.username }}</a>
+    {% endfor %}
+  </div>
+{% endblock %}

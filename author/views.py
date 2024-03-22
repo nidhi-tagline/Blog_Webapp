@@ -1,7 +1,17 @@
+from typing import Any
+from django.db.models.query import QuerySet
+from django.views import generic
 from django.views.generic import DetailView
 from .models import Author
 from django.core.paginator import Paginator
 
+class BloggerListView(generic.ListView):
+    template_name = 'author/all_bloggers.html'
+    context_object_name = 'authors'
+    
+    def get_queryset(self):
+        return Author.objects.all()
+    
 class BloggerDetailView(DetailView):
     queryset = Author.objects.prefetch_related('blogs')
     template_name = "author/blogger_detail.html"
@@ -18,4 +28,3 @@ class BloggerDetailView(DetailView):
         context['author_posts'] = page_obj
         return context
         
-    
