@@ -15,12 +15,12 @@
 <div class="card border-success m-3">
     <a class="text-decoration-none" href="#"><h5 class="card-header bg-success text-white bg-opacity-75">{{ post.title }}</h5></a>
     <div class="card-body">
-        <p class="card-text">Date posted : {{post.created_at}}</p>
+        <p class="card-text">Date posted :{{post.created_at}}</p>
     </div>
 </div>
 {% endfor %}
 {% else %}
-No blogs posted by this user yet!
+No blogs posted by {{author.username}} yet!
 {% endif %}
 
 <nav>

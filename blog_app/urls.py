@@ -6,5 +6,5 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blogs/', include("blog.urls")),
-    path('blogs/blogger/', include("author.urls"))
+    path('blogs/bloggers/', include("author.urls"))
 ]
