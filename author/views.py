@@ -1,8 +1,8 @@
-from django.views import generic
+from django.views.generic import DetailView
 from .models import Author
 from django.core.paginator import Paginator
 
-class BloggerDetailView(generic.DetailView):
+class BloggerDetailView(DetailView):
     queryset = Author.objects.prefetch_related('blogs')
     template_name = "author/blogger_detail.html"
     context_object_name = "author"
