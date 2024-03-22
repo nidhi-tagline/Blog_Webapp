@@ -9,7 +9,7 @@
     <a class="text-decoration-none" href="#"><h5 class="card-header bg-success text-white bg-opacity-75">{{ post.title }}</h5></a>
     <div class="card-body">
         <p class="card-text">Date posted : {{post.created_at}}</p>
-        - By <a href="#" class="link-success text-decoration-none">{{post.author}}</a>
+        - By <a href="{% url "author:author-detail" post.author_id%}" class="link-success text-decoration-none">{{post.author}}</a>
     </div>
 </div>
 {% endfor %}

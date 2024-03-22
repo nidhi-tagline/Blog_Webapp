@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}List of bloggers{% endblock %}
+
+{% block content %}
+<h1>All Bloggers</h1>
+<hr>
+<div class="list-group border border-success fs-4">
+    {% for author in authors %}
+    <a href="{% url "author:author-detail" author.id %}" class="list-group-item list-group-item-action">{{ author.username }}</a>
+    {% endfor %}
+</div>
+
+<nav>
+  <div class="pagination justify-content-center mt-3">
+      {% if page_obj.has_previous %}
+          <a class="link-success mx-2" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+          <span>Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}.<span>
+      {% if page_obj.has_next %}
+          <a class="link-success mx-2" href="?page={{ page_obj.next_page_number }}">Next</a>
+      {% endif %}
+  </div>
+</nav>
+{% endblock %}
