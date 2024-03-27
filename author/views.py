@@ -2,6 +2,8 @@ from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView, UpdateView
 from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator
+from django.urls.base import reverse_lazy
+from .forms import AuthorRegisterForm
 from django.contrib.auth import login, views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Author

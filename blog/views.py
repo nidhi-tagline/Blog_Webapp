@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from .models import Blog, Comment
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
+from django.urls.base import reverse
 
 
 class IndexView(TemplateView):
