@@ -1,9 +1,11 @@
-from django.views.generic import ListView, DetailView, FormView
-from .models import Author
+from django.shortcuts import redirect
+from django.views.generic import ListView, DetailView, FormView, UpdateView
+from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator
-from django.urls import reverse_lazy
-from .forms import AuthorRegisterForm
 from django.contrib.auth import login, views
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Author
+from .forms import AuthorRegisterForm
 
 class BloggerListView(ListView):
     queryset = Author.objects.all()
@@ -40,6 +42,11 @@ class AuthorRegisterView(FormView):
             login(self.request, user)
         return super(AuthorRegisterView, self).form_valid(form)
 
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('blog:home')
+        return super(AuthorLoginView, self).get(*args, **kwargs)
+    
 class AuthorLoginView(views.LoginView):
     template_name = "author/login.html"
     fields = ['username','password']
@@ -51,3 +58,28 @@ class AuthorLoginView(views.LoginView):
             return self.request.GET.get('next')
         else:
             return self.success_url
+        
+class AuthorProfileView(LoginRequiredMixin, DetailView):
+    template_name = "author/profile.html"
+    queryset = Author.objects.prefetch_related('blogs')
+    context_object_name = 'author'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['blogs'] = self.queryset.get(id=self.kwargs['pk']).blogs.all()
+        return context
+
+class AuthorProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Author
+    template_name = "author/profile_update.html"
+    fields = ['username','bio_detail']
+    queryset = Author.objects.prefetch_related('blogs')
+    context_object_name = 'author'
+    
+    def get_success_url(self):
+        return reverse("author:author-profile", kwargs={"pk": self.kwargs["pk"],})
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['blogs'] = self.queryset.get(id=self.kwargs['pk']).blogs.all()
+        return context
