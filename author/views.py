@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, FormView
 from .models import Author
 from django.core.paginator import Paginator
-from django.urls import reverse_lazy
+from django.urls.base import reverse_lazy
 from .forms import AuthorRegisterForm
 from django.contrib.auth import login, views
 

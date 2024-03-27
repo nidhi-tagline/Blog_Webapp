@@ -1,4 +1,4 @@
-from django.urls import path,reverse_lazy
+from django.urls.conf import path
 from django.contrib.auth.views import LogoutView
 from . import views
 
