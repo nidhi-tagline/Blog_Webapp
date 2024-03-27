@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+<h2 class="text-success">{{post.title}}</h2>
+<hr>
+<div class="fs-5">
+    - By <a class="text-decoration-none text-success" href="{% url "author:author-detail" post.author_id %}">{{ post.author }}</a>
+</div>
+<hr>
+<div>Posted on {{post.created_at}}</div>
+<hr>
+<p>{{post.content|linebreaksbr}}</p>
+<hr>
+<div class="fs-5 mb-3">Comments :</div>
+{% for comment in all_comments %}
+<hr><div>
+    {{comment.comment}}<br>
+    - {{comment.created_by}} [{{comment.created_at}}]
+</div>
+{% endfor %}
+<a class="btn btn-outline-success mt-3" href="{% url "blog:add-comment" post.id %}">Add comment</a>
+{% endblock %}

@@ -5,9 +5,9 @@
 {% block content %}
 <h1>All Bloggers</h1>
 <hr>
-<div class="list-group border border-success fs-4">
+<div>
     {% for author in authors %}
-    <a href="{% url "author:author-detail" author.id %}" class="list-group-item list-group-item-action">{{ author.username }}</a>
+    <a href="{% url "author:author-detail" author.id %}" class="list-group-item list-group-item-action">{{ author.username }}</a><br>
     {% endfor %}
 </div>
 

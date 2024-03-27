@@ -13,7 +13,7 @@
 {% if author_posts %}
 {% for post in author_posts %}
 <div class="card border-success m-3">
-    <a class="text-decoration-none" href="#"><h5 class="card-header bg-success text-white bg-opacity-75">{{ post.title }}</h5></a>
+    <a class="text-decoration-none" href="{% url "blog:blog-detail" post.id %}"><h5 class="card-header bg-success text-white bg-opacity-75">{{ post.title }}</h5></a>
     <div class="card-body">
         <p class="card-text">Date posted :{{post.created_at}}</p>
     </div>
