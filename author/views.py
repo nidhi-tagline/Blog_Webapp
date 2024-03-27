@@ -1,6 +1,9 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView
 from .models import Author
 from django.core.paginator import Paginator
+from django.urls import reverse_lazy
+from .forms import AuthorSignUpForm
+from django.contrib.auth import login, views
 
 class BloggerListView(ListView):
     queryset = Author.objects.all()
@@ -25,3 +28,26 @@ class BloggerDetailView(DetailView):
         context['author_posts'] = page_obj
         return context
         
+class AuthorSignUpView(FormView):
+    template_name = 'author/signup.html'
+    form_class = AuthorSignUpForm
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('blog:home')
+    
+    def form_valid(self, form):
+        user = form.save()
+        if user is not None:
+            login(self.request, user)
+        return super(AuthorSignUpView, self).form_valid(form)
+
+class AuthorLoginView(views.LoginView):
+    template_name = "author/login.html"
+    fields = ['username','password']
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('blog:home')
+    
+    def get_success_url(self):
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return self.success_url

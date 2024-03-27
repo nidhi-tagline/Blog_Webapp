@@ -67,6 +67,8 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'author.Author'
+
+LOGIN_URL = '/blogs/bloggers/login/'
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
