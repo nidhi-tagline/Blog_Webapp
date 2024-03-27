@@ -22,7 +22,7 @@
           <span class="pt-3 px-3">user :{{request.user}}</span>
           <a href="{% url "author:logout" %}">Log-out</a>
           {% else %}
-          <a href="{% url "author:signup" %}">Sign-up</a>
+          <a href="{% url "author:register" %}">Sign-up</a>
           <a href="{% url "author:login" %}">Log-in</a>
           {% endif %}
         {% endblock %}

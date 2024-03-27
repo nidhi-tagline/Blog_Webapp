@@ -1,10 +1,10 @@
 from django.contrib import admin
 from .models import Author
 from django.contrib.auth.admin import UserAdmin
-from .forms import AuthorChangeForm, AuthorSignUpForm 
+from .forms import AuthorChangeForm, AuthorRegisterForm 
 
 class CustomUserAdmin(UserAdmin):
-    add_form = AuthorSignUpForm
+    add_form = AuthorRegisterForm
     form = AuthorChangeForm
     model = Author
     fieldsets = [
