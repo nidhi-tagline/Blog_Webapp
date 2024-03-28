@@ -19,10 +19,10 @@
           <a href="{% url "blog:all-blogs" %}">All Blogs</a>
           <a href="{% url "author:all-authors" %}">All Bloggers</a>
           {% if request.user.is_authenticated %}
-          <span class="pt-3 px-3">user :{{request.user}}</span>
+          <span class="pt-3 px-3">user :<a href="{% url "author:author-profile" request.user.id %}">{{request.user}}</a></span>
           <a href="{% url "author:logout" %}">Log-out</a>
           {% else %}
-          <a href="{% url "author:register" %}">Sign-up</a>
+          <a href="{% url "author:register" %}">Register</a>
           <a href="{% url "author:login" %}">Log-in</a>
           {% endif %}
         {% endblock %}
