@@ -13,7 +13,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+DEBUG_TOOLBAR = 0
 # Application definition
 
 INSTALLED_APPS = [
@@ -24,7 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'author.apps.AuthorConfig',
-    'blog.apps.BlogConfig'
+    'blog.apps.BlogConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -36,6 +37,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+if DEBUG_TOOLBAR:
+    MIDDLEWARE += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+    INSTALLED_APPS += (
+        'debug_toolbar',
+    )
+    INTERNAL_IPS = ('127.0.0.1',)
+        
 
 ROOT_URLCONF = 'blog_app.urls'
 

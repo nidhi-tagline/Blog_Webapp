@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}User Profile{% endblock title %}
+
+{% block content %}
+<div class="row justify-content-between">
+    <div class="col-5">
+        <h2 class="text-success">Hello, {{user.username}}</h2>
+    </div>
+    <div class="col-4">
+        <a href="{% url "author:author-profile-update" user.id %}" class="btn btn-success ms-3">Update Profile</a>
+        <a href="#" class="btn btn-success ms-3">Add Blog</a>
+    </div>
+</div>
+<hr>
+<div>
+    <p>{{author.bio_detail|linebreaksbr}}</p>
+</div>
+<hr>
+<h3 class="text-success">All the blogs that you posted</h3>
+{% if blogs %}
+{% for blog in blogs %}
+<div class="card border-success m-3">
+    <a class="text-decoration-none" href="{% url "blog:blog-detail" blog.id %}"><h5 class="card-header bg-success text-white bg-opacity-75">{{ blog.title }}</h5></a>
+    <div class="card-body">
+        <p class="card-text">Date posted :{{blog.created_at}}</p>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+You have not posted any blogs yet! <br> Add now....
+{% endif %}
+{% endblock content %}
