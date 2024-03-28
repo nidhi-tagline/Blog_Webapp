@@ -13,7 +13,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-DEBUG_TOOLBAR = 1
+DEBUG_TOOLBAR = 0
 # Application definition
 
 INSTALLED_APPS = [
