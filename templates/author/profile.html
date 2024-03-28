@@ -9,7 +9,7 @@
     </div>
     <div class="col-4">
         <a href="{% url "author:author-profile-update" user.id %}" class="btn btn-success ms-3">Update Profile</a>
-        <a href="#" class="btn btn-success ms-3">Add Blog</a>
+        <a href="{% url "blog:create-blog" %}" class="btn btn-success ms-3">Add Blog</a>
     </div>
 </div>
 <hr>
@@ -21,7 +21,11 @@
 {% if blogs %}
 {% for blog in blogs %}
 <div class="card border-success m-3">
-    <a class="text-decoration-none" href="{% url "blog:blog-detail" blog.id %}"><h5 class="card-header bg-success text-white bg-opacity-75">{{ blog.title }}</h5></a>
+    <div class="card-header bg-success bg-opacity-75 d-flex justify-content-between">
+        <a class="text-decoration-none" href="{% url "blog:blog-detail" blog.id %}"><h5 class="text-white">{{ blog.title }}</h5></a>
+        <div><a class="btn btn-outline-light btn-sm" href="{% url "blog:update-blog" blog.id %}">update</a>
+        <a class="btn btn-outline-light btn-sm" href="{% url "blog:delete-blog" blog.id %}">delete</a></div>
+    </div>
     <div class="card-body">
         <p class="card-text">Date posted :{{blog.created_at}}</p>
     </div>

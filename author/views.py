@@ -2,7 +2,6 @@ from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView, UpdateView
 from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator
-from django.urls.base import reverse_lazy
 from .forms import AuthorRegisterForm
 from django.contrib.auth import login, views
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -80,8 +79,3 @@ class AuthorProfileUpdateView(LoginRequiredMixin, UpdateView):
     
     def get_success_url(self):
         return reverse("author:author-profile", kwargs={"pk": self.kwargs["pk"],})
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['blogs'] = self.queryset.get(id=self.kwargs['pk']).blogs.all()
-        return context
