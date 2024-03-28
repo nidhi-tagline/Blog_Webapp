@@ -20,3 +20,9 @@ class Comment(BaseModel):
     post = models.ForeignKey(Blog,on_delete=models.CASCADE, related_name='comments')
     comment = models.CharField(max_length=300)
     created_by = models.ForeignKey(Author,on_delete=models.CASCADE , related_name= 'commentor')
+    
+    def __str__(self):
+        if len(self.comment)>40:
+            return self.comment[:40] + "..."  
+        else:
+            return self.comment
