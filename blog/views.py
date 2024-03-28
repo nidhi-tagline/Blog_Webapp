@@ -13,7 +13,7 @@ class AllBlogView(ListView):
     context_object_name = 'blog_posts' 
     
     def get_queryset(self):
-        return Blog.objects.all().order_by("-created_at")
+        return Blog.objects.select_related('author').order_by("-created_at")
         
 class BlogDetailView(DetailView):
     queryset = Blog.objects.select_related('author')
