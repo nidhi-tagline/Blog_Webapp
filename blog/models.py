@@ -1,6 +1,6 @@
 from django.db import models
 from author.models import Author
-# Create your models here.
+from django.conf import settings
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -22,7 +22,7 @@ class Comment(BaseModel):
     created_by = models.ForeignKey(Author,on_delete=models.CASCADE , related_name= 'commentor')
     
     def __str__(self):
-        if len(self.comment)>40:
+        if len(self.comment) > settings.TRUNCATE_CHAR_LIMIT:
             return self.comment[:40] + "..."  
         else:
             return self.comment
