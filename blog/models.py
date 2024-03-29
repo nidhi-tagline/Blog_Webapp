@@ -23,6 +23,6 @@ class Comment(BaseModel):
     
     def __str__(self):
         if len(self.comment) > settings.TRUNCATE_CHAR_LIMIT:
-            return self.comment[:40] + "..."  
+            return self.comment[:settings.TRUNCATE_CHAR_LIMIT] + "..."  
         else:
             return self.comment
