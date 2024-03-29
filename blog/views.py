@@ -53,8 +53,7 @@ class CreateBlogView(LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         new_blog = form.save(commit=False)
-        author = Author.objects.get(id=self.request.user.id)
-        new_blog.author = author
+        new_blog.author = self.request.user
         return super().form_valid(form)
     
     def get_success_url(self): 
