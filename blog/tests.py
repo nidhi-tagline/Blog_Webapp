@@ -1,3 +1,4 @@
+from django.urls.base import reverse
 from django.test import TestCase
 from .models import Blog, Author, Comment
 from datetime import datetime
@@ -62,8 +63,6 @@ class CommentModelTests(TestCase):
         created_by = comment.created_by
         self.assertIsInstance(created_by,Author)
 
-
-from django.urls.base import reverse
 
 class BlogListViewTests(TestCase):
     @classmethod
