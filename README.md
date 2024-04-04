@@ -15,7 +15,7 @@ cd Blog_Webapp
 
 3. Create a virtual environment and activate it
 ```bash
-python3 -m venv env
+python -m venv env
 source env/bin/activate
 ```
 
@@ -32,7 +32,7 @@ python manage.py migrate
 
 6. Runserver
 ```bash
-python3 manage.py runserver
+python manage.py runserver
 ```
 
 7. Open http://localhost:8000/blogs in your browser
