@@ -7,6 +7,7 @@ from django.contrib.auth import login, views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Author
 from .forms import AuthorRegisterForm
+from django.http.response import Http404
 
 class BloggerListView(ListView):
     queryset = Author.objects.all()
@@ -64,18 +65,34 @@ class AuthorProfileView(LoginRequiredMixin, DetailView):
     template_name = "author/profile.html"
     queryset = Author.objects.prefetch_related('blogs')
     context_object_name = 'author'
-    
+      
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        obj = queryset.filter(id=self.request.user.id)
+        if not obj :
+            return Http404
+        else :
+            return obj
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['blogs'] = self.queryset.get(id=self.kwargs['pk']).blogs.all()
         return context
 
 class AuthorProfileUpdateView(LoginRequiredMixin, UpdateView):
-    model = Author
     template_name = "author/profile_update.html"
     fields = ['username','bio_detail']
-    queryset = Author.objects.prefetch_related('blogs')
+    queryset = Author.objects.prefetch_related('blogs').all()
     context_object_name = 'author'
     
+    # only author can update his profile
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        obj = queryset.filter(id=self.request.user.id)
+        if not obj :
+            return Http404
+        else :
+            return obj
+        
     def get_success_url(self):
         return reverse("author:author-profile", kwargs={"pk": self.kwargs["pk"],})
