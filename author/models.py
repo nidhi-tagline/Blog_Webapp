@@ -9,7 +9,7 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
-    
+
     def create_superuser(self, username, password= None, **extra_fields):
         user = self.create_user(username=username, password=password, **extra_fields)
         user.is_admin = True
@@ -21,15 +21,15 @@ class Author(AbstractBaseUser):
     bio_detail = models.TextField()
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    
+
     objects = CustomUserManager()
-    
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
-    
+
     def __str__(self):
         return self.username
-    
+
     def has_perm(self, perm, obj=None):
         return True
 

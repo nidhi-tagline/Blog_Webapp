@@ -14,8 +14,8 @@ class BloggerListView(ListView):
     template_name = 'author/all_bloggers.html'
     context_object_name = 'authors'
     paginate_by = 10
-    
-    
+
+
 class BloggerDetailView(DetailView):
     queryset = Author.objects.prefetch_related('blogs')
     template_name = "author/blogger_detail.html"
