@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.urls.conf import path, include
 from django.conf import settings
