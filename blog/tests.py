@@ -113,3 +113,34 @@ class AddCommentViewTests(TestCase):
         comment = Comment.objects.filter(comment="test comment")
         self.assertTrue(comment)
         
+class UpdateBlogViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_author = Author.objects.create(username="test_author",bio_detail="This is a bio for test auther.")
+        Blog.objects.create(title="sample blog",content="This is a sample blog",author=test_author)
+        cls.client = Client()
+        
+    # check that unauthorized author cannot update-blog
+    def test_blog_not_update_by_other(self):
+        author = Author.objects.get(id=1)
+        blog = Blog.objects.get(id=1)
+        self.client.post(reverse("blog:update-blog",kwargs={"pk": blog.pk}),{"title":"updated title","content":"This is a sample blog"})
+        
+        blog.refresh_from_db()
+        self.assertNotEqual(blog.title,"updated title")
+    
+    # check that only logged-in author can update-blog
+    def test_blog_update_by_author(self):
+        author = Author.objects.get(id=1)
+        self.client.force_login(author)
+        blog = Blog.objects.get(id=1)
+        self.client.post(reverse("blog:update-blog",kwargs={"pk": blog.pk}),{"title":"updated title","content":"This is a sample blog"})
+        
+        blog.refresh_from_db()
+        self.assertEqual(blog.title,"updated title")
+    
+    # check that unauthorized author should not be able to update blog
+    def test_login_redirect_url(self):
+        blog = Blog.objects.get(id=1)
+        response = self.client.get(reverse('blog:update-blog',kwargs={'pk':blog.id}),follow=True)
+        self.assertRedirects(response,'/blogs/bloggers/login/?next=/blogs/blogs/update/1/',status_code=302)

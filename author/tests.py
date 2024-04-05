@@ -1,6 +1,7 @@
 from django.test.testcases import TestCase
 from django.test.client import Client
 from .models import Author
+from blog.models import Blog
 from django.urls.base import reverse
 
 class AuthorModelTests(TestCase):
@@ -67,3 +68,39 @@ class AuthorProfileUpdateTests(TestCase):
         author.refresh_from_db()
         self.assertNotEqual(author.bio_detail,"updated bio")
         
+class AuthorProfileViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        author1 = Author.objects.create(username="author1", bio_detail="author1 bio")
+        author2 = Author.objects.create(username="author2", bio_detail="author2 bio")
+        cls.client = Client()
+        
+        num_of_blogs = 6
+        # create blogs for author1
+        for i in range(num_of_blogs):
+            Blog.objects.create(title=f"blog{i} title",content=f"blog{i} content",author=author1)
+            
+        # create blog for author2
+        Blog.objects.create(title=f"sample blog",content=f"sample blog content",author=author2)
+            
+    # check only blogs by author are shown on their own profile
+    def test_author_profile_blog_list(self):
+        author = Author.objects.get(username="author1")
+        # login author1 to visit his profile
+        self.client.force_login(author)
+        response = self.client.get(reverse("author:author-profile",kwargs={'pk':author.pk}))
+        
+        # get blog created by author2
+        blog = Blog.objects.get(pk=7)
+        self.assertNotIn(blog,response.context['blogs'])
+        self.assertEqual(len(response.context['blogs']),6)
+        self.assertEqual(response.status_code, 200)
+        
+    # check that logged in author cannot see other authors profile
+    def test_url_cannot_be_manipulated(self):
+        author = Author.objects.get(username="author1")
+        # login as author1 and try accessing another authors profile
+        self.client.force_login(author)
+        wrong_user_url = reverse('author:author-profile', kwargs={'pk':2})
+        response = self.client.get(wrong_user_url)  
+        self.assertEqual(response.status_code,404)

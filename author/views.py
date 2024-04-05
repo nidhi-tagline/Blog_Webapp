@@ -66,17 +66,17 @@ class AuthorProfileView(LoginRequiredMixin, DetailView):
     queryset = Author.objects.prefetch_related('blogs')
     context_object_name = 'author'
       
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        obj = queryset.filter(id=self.request.user.id)
-        if not obj :
-            return Http404
-        else :
+    def get_object(self):
+        obj = super().get_object()
+        if  obj != self.request.user:
+            raise Http404
+        else:
             return obj
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['blogs'] = self.queryset.get(id=self.kwargs['pk']).blogs.all()
+        author = self.get_object()
+        context['blogs'] = author.blogs.all()
         return context
 
 class AuthorProfileUpdateView(LoginRequiredMixin, UpdateView):
