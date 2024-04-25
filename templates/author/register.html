@@ -1,0 +1,21 @@
+{% extends "base.html" %} 
+
+{% block title %}Sign Up{% endblock %} 
+
+{% block content %}
+<h2 class="text-center">Sign up yourself</h2>
+<div class="mt-5 d-flex justify-content-center">
+  <form action="{% url 'author:register' %}" method="post">
+    {% csrf_token %} 
+    {% for field in form %}
+        <div class="mb-3">
+        <label class="form-label">{{ field.label }} :</label><br />
+        {{ field }}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-success">Sign Up</button>
+  </form>
+  <hr>
+
+</div>
+{% endblock %}

@@ -9,11 +9,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-t9ay-kwy9uajja3(f8%7p^i9wmgn6#b&x$lavnz^-2yww4ufua'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
-
+DEBUG_TOOLBAR = 0
 # Application definition
 
 INSTALLED_APPS = [
@@ -24,7 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'author.apps.AuthorConfig',
-    'blog.apps.BlogConfig'
+    'blog.apps.BlogConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -36,6 +37,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+if DEBUG_TOOLBAR:
+    MIDDLEWARE += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+    INSTALLED_APPS += (
+        'debug_toolbar',
+    )
+    INTERNAL_IPS = ('127.0.0.1',)
+        
 
 ROOT_URLCONF = 'blog_app.urls'
 
@@ -67,6 +77,8 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'author.Author'
+
+LOGIN_URL = '/blogs/bloggers/login/'
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -100,3 +112,5 @@ STATICFILES_DIRS = [
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TRUNCATE_CHAR_LIMIT = 40
