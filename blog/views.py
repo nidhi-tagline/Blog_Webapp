@@ -1,8 +1,8 @@
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
-from .models import Blog, Comment
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from .models import Blog, Comment, Author
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls.base import reverse
-
+from django.http.response import Http404
 
 class IndexView(TemplateView):
     template_name = "blog/index.html"
@@ -45,3 +45,52 @@ class AddCommentView(LoginRequiredMixin, CreateView):
     
     def get_success_url(self):  
         return reverse("blog:blog-detail", kwargs={"pk": self.kwargs["pk"],})
+
+class CreateBlogView(LoginRequiredMixin, CreateView):
+    template_name = "blog/create_blog.html"
+    model = Blog
+    fields = ["title","content"]
+    
+    def form_valid(self, form):
+        new_blog = form.save(commit=False)
+        new_blog.author = self.request.user
+        return super().form_valid(form)
+    
+    def get_success_url(self): 
+        return reverse("author:author-profile",kwargs={"pk":self.request.user.id})
+
+
+class UpdateBlogView(LoginRequiredMixin, UpdateView):
+    template_name = "blog/update_blog.html"
+    fields = ["title","content"]
+    queryset =  Blog.objects.all()
+
+    # only the author of a blog can update it
+    def get_queryset(self):
+        queryset = super().get_queryset()     
+        obj = queryset.filter(author__username=self.request.user.username)
+        if not obj:
+            raise Http404
+        else:
+            return obj
+    
+    def get_success_url(self):
+        return reverse("author:author-profile",kwargs={"pk":self.request.user.id})
+
+
+class DeleteBlogView(LoginRequiredMixin, DeleteView):
+    template_name = "blog/delete_blog.html"
+    context_object_name = "post"
+    queryset =  Blog.objects.all()
+
+    # only the author of a blog can delete it
+    def get_queryset(self):
+        queryset = super().get_queryset()     
+        obj = queryset.filter(author__username=self.request.user.username)
+        if not obj:
+            raise Http404
+        else:
+            return obj
+        
+    def get_success_url(self):
+        return reverse("author:author-profile",kwargs={"pk":self.request.user.id})
