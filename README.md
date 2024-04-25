@@ -8,14 +8,14 @@ In blog app, non logged-in users can view posts and authors. Authors are able to
 git clone https://github.com/nidhi-tagline/Blog_Webapp.git
 ```
 
-2. Navigate to project directory 
+2. Navigate to project directory
 ```bash
 cd Blog_Webapp
 ```
 
 3. Create a virtual environment and activate it
 ```bash
-python3 -m venv env
+python -m venv env
 source env/bin/activate
 ```
 
@@ -24,9 +24,15 @@ source env/bin/activate
 (env)$ pip install -r requirements.txt
 ```
 
-5. Runserver
+5. Make migrations
 ```bash
-python3 manage.py runserver
+python manage.py makemigrations
+python manage.py migrate
 ```
 
-6. Open http://localhost:8000 in your browser
+6. Runserver
+```bash
+python manage.py runserver
+```
+
+7. Open http://localhost:8000/blogs in your browser
