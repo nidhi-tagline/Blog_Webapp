@@ -10,8 +10,8 @@ class IndexView(TemplateView):
 class AllBlogView(ListView):
     template_name = "blog/all_blogs.html"
     paginate_by = 5
-    context_object_name = 'blog_posts' 
-    
+    context_object_name = "blog_posts"
+
     def get_queryset(self):
         return Blog.objects.select_related('author').order_by("-created_at")
         
